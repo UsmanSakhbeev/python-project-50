@@ -28,27 +28,25 @@ def main():
 
 
 def compare_json(file1, file2, path=""):
-    diffs = {}
-    for key in file1.keys() | file2.keys():
+    output = {}    
+    sorted_keys = sorted(file1.keys() | file2.keys())
+    for key in sorted_keys:
         if key not in file1:
-            diffs[f"{path}/{key}"] = f"Key '{key}' added in second file"
+            output[f"+ {key}"] = file2[key]
         elif key not in file2:
-            diffs[f"{path}/{key}"] = f"Key '{key}' removed in second file"
-        else:
-            if isinstance(file1[key], dict) and isinstance(file2[key], dict):
-                nested_diff = compare_json(file1[key], file2[key], path + "/" + key)
-                diffs.update(nested_diff)
-            elif file1[key] != file2[key]:
-                diffs[f"{path}/{key}"] = f"Value changed from {file1[key]} to {file2[key]}"
-    return diffs
+            output[f"- {key}"] = file1[key]
+        elif key in file1 and key in file2:
+            if file1[key] == file2[key]:
+                output[f"  {key}"] = file1[key]
+            else:
+                output[f"- {key}"] = file1[key]
+                output[f"+ {key}"] = file2[key]
+    return output
 
 
 def print_diff(diff):
-    if not diff:
-        print("No differences found.")
-    else:
-        for key, message in diff.items():
-            print(f"{key}: {message}")
+    for key, message in diff.items():
+        print(f"{key}: {message}")
 
 
 if __name__ == "__main__":
