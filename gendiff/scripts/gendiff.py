@@ -12,10 +12,6 @@ def main():
     )
 
     args = parser.parse_args()
-
-    print(f"First file: {args.first_file}")
-    print(f"Second file: {args.second_file}")
-    print(f"Output format: {args.format}")
     
     with open(args.first_file, 'r') as file:
         file1 = json.load(file)
@@ -32,21 +28,23 @@ def compare_json(file1, file2, path=""):
     sorted_keys = sorted(file1.keys() | file2.keys())
     for key in sorted_keys:
         if key not in file1:
-            output[f"+ {key}"] = file2[key]
+            output[f" + {key}"] = file2[key]
         elif key not in file2:
-            output[f"- {key}"] = file1[key]
+            output[f" - {key}"] = file1[key]
         elif key in file1 and key in file2:
             if file1[key] == file2[key]:
-                output[f"  {key}"] = file1[key]
+                output[f"   {key}"] = file1[key]
             else:
-                output[f"- {key}"] = file1[key]
-                output[f"+ {key}"] = file2[key]
+                output[f" - {key}"] = file1[key]
+                output[f" + {key}"] = file2[key]
     return output
 
 
 def print_diff(diff):
+    print("{")
     for key, message in diff.items():
         print(f"{key}: {message}")
+    print("}")
 
 
 if __name__ == "__main__":
