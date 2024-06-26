@@ -7,4 +7,4 @@ JSON2 = "tests/fixtures/json2.json"
 JSON_RESULT = "tests/fixtures/diff_json.json"
 
 def test_merge():
-    assert generate_diff(JSON1, JSON2) == JSON_RESULT
+    assert generate_diff(JSON1, JSON2) == open(JSON_RESULT).read()
