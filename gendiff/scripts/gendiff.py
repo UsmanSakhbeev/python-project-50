@@ -19,11 +19,11 @@ def main():
         file2 = json.load(file)
 
     
-    diff = compare_json(file1, file2)
+    diff = generate_diff(file1, file2)
     print_diff(diff)
 
 
-def compare_json(file1, file2, path=""):
+def generate_diff(file1, file2, path=""):
     output = {}    
     sorted_keys = sorted(file1.keys() | file2.keys())
     for key in sorted_keys:
