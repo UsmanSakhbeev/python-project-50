@@ -13,17 +13,22 @@ def main():
 
     args = parser.parse_args()
     
-    with open(args.first_file, 'r') as file:
-        file1 = json.load(file)
-    with open(args.second_file, 'r') as file:
-        file2 = json.load(file)
+    #with open(args.first_file, 'r') as file:
+    #    file1 = json.load(file)
+    #with open(args.second_file, 'r') as file:
+    #    file2 = json.load(file)
 
     
-    diff = generate_diff(file1, file2)
+    diff = generate_diff(args.first_file, args.second_file)
     print_diff(diff)
 
+def get_text(file_path: str):
+    with open(file_path) as file:
+        return json.load(file)
 
-def generate_diff(file1, file2, path=""):
+def generate_diff(file_path1, file_path2, path=""):
+    file1 = get_text(file_path1)
+    file2 = get_text(file_path2)
     output = {}    
     sorted_keys = sorted(file1.keys() | file2.keys())
     for key in sorted_keys:
