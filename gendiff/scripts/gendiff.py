@@ -1,35 +1,30 @@
 import argparse
 import json
-import os
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Compares two configuration files and shows a difference.")
-    parser.add_argument("first_file", type=str, help="First configuration file")
-    parser.add_argument("second_file", type=str, help="Second configuration file")
+    parser = argparse.ArgumentParser(
+        description="Compares and shows a difference.")
+    parser.add_argument("first_file", type=str, help="First conf file")
+    parser.add_argument("second_file", type=str, help="Second conf file")
     parser.add_argument(
-        "-f", "--format", type=str, help="set format of output"
-    )
+        "-f", "--format", type=str, help="set format of output")
 
     args = parser.parse_args()
-    
-    #with open(args.first_file, 'r') as file:
-    #    file1 = json.load(file)
-    #with open(args.second_file, 'r') as file:
-    #    file2 = json.load(file)
 
-    
     diff = generate_diff(args.first_file, args.second_file)
     print_diff(diff)
+
 
 def get_text(file_path: str):
     with open(file_path) as file:
         return json.load(file)
 
+
 def generate_diff(file_path1, file_path2, path=""):
     file1 = get_text(file_path1)
     file2 = get_text(file_path2)
-    output = {}    
+    output = {}
     sorted_keys = sorted(file1.keys() | file2.keys())
     for key in sorted_keys:
         if key not in file1:
