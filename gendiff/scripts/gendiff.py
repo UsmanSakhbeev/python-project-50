@@ -12,8 +12,7 @@ def main():
 
     args = parser.parse_args()
 
-    diff = generate_diff(args.first_file, args.second_file)
-    print_diff(diff)
+    diff = generate_diff(args.first_file, args.second_file)    
 
 
 def get_text(file_path: str):
@@ -24,27 +23,21 @@ def get_text(file_path: str):
 def generate_diff(file_path1, file_path2, path=""):
     file1 = get_text(file_path1)
     file2 = get_text(file_path2)
-    output = {}
+    output = ["{"]
     sorted_keys = sorted(file1.keys() | file2.keys())
     for key in sorted_keys:
         if key not in file1:
-            output[f" + {key}"] = file2[key]
+            output.append(f"  + {key}: {file2[key]}")
         elif key not in file2:
-            output[f" - {key}"] = file1[key]
+            output.append(f"  - {key}: {file1[key]}")
         elif key in file1 and key in file2:
             if file1[key] == file2[key]:
-                output[f"   {key}"] = file1[key]
+                output.append(f"    {key}: {file1[key]}")
             else:
-                output[f" - {key}"] = file1[key]
-                output[f" + {key}"] = file2[key]
-    return output
-
-
-def print_diff(diff):
-    print("{")
-    for key, message in diff.items():
-        print(f"{key}: {message}")
-    print("}")
+                output.append(f"  - {key}: {file1[key]}")
+                output.append(f"  + {key}: {file2[key]}")
+    output.append('}')
+    return "\n".join(output).lower().strip()
 
 
 if __name__ == "__main__":

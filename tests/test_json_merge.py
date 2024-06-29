@@ -8,5 +8,5 @@ JSON_RESULT = "tests/fixtures/diff_json.json"
 
 def test_merge():
     with open(JSON_RESULT) as f:
-        esxpected_result = f.read()
-    assert generate_diff(JSON1, JSON2) == esxpected_result
+        expected_result = f.read().strip()
+    assert generate_diff(JSON1, JSON2).strip() == expected_result
