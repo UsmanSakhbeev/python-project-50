@@ -1,5 +1,5 @@
 import argparse
-import json
+from gendiff.scripts.parse_files import get_text
 
 
 def main():
@@ -11,18 +11,11 @@ def main():
         "-f", "--format", type=str, help="set format of output")
 
     args = parser.parse_args()
-
-    return generate_diff(args.first_file, args.second_file)
-
-
-def get_text(file_path: str):
-    with open(file_path) as file:
-        return json.load(file)
+    file1, file2 = get_text(args.first_file, args.second_file)
+    return generate_diff(file1, file2)
 
 
-def generate_diff(file_path1, file_path2, path=""):
-    file1 = get_text(file_path1)
-    file2 = get_text(file_path2)
+def generate_diff(file1, file2, path=""):
     output = ["{"]
     sorted_keys = sorted(file1.keys() | file2.keys())
     for key in sorted_keys:
