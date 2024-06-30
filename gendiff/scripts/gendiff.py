@@ -12,7 +12,7 @@ def main():
 
     args = parser.parse_args()
 
-    diff = generate_diff(args.first_file, args.second_file)    
+    return generate_diff(args.first_file, args.second_file)
 
 
 def get_text(file_path: str):
