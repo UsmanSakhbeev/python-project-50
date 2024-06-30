@@ -19,3 +19,8 @@ jobs:
               with:
                 coverageCommand: make test-coverage
                 debug: true
+            - name: Check linter
+              run: |
+                make lint
+                make test
+              
