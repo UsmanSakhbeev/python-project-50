@@ -13,5 +13,5 @@ lint:
 build:
 	poetry build
 
-reinstal:
+reinstall:
 	python3 -m pip install --user dist/*.whl --force-reinstall
