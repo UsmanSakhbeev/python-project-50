@@ -13,10 +13,10 @@ def test_json_merge():
     with open(RESULT) as f:
         expected_result = f.read().strip()
     json1, json2 = get_text(JSON1, JSON2)
-    assert generate_diff(json1, json2).strip() == expected_result
+    assert generate_diff(json1, json2, "stylish").strip() == expected_result
 
 def test_yml_merge():
     with open(RESULT) as f:
         expected_result = f.read().strip()
     yml1, yml2 = get_text(YML1, YML2)
-    assert generate_diff(yml1, yml2).strip() == expected_result
+    assert generate_diff(yml1, yml2, "stylish").strip() == expected_result
