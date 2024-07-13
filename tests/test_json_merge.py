@@ -9,6 +9,7 @@ YML1 = "tests/fixtures/yml1.yml"
 YML2 = "tests/fixtures/yml2.yml"
 JSON_RESULT = "tests/fixtures/diff.json"
 PLAIN_RESULT = "tests/fixtures/plain_diff"
+YAML_RESULT = "tests/fixtures/json.json"
 
 def test_json_merge():
     json1, json2 = get_text(JSON1, JSON2)
@@ -20,6 +21,10 @@ def test_json_merge():
     with open(PLAIN_RESULT) as f:
         expected_result = f.read().strip()    
     assert generate_diff(json1, json2, "plain").strip() == expected_result
+
+    with open(YAML_RESULT) as f:
+        expected_result = f.read().strip()    
+    assert generate_diff(json1, json2, "json").strip() == expected_result
 
 
 
@@ -33,3 +38,10 @@ def test_yml_merge():
     with open(PLAIN_RESULT) as f:
         expected_result = f.read().strip()    
     assert generate_diff(yml1, yml2, "plain").strip() == expected_result
+
+    with open(YAML_RESULT) as f:
+        expected_result = f.read().strip()    
+    assert generate_diff(yml1, yml2, "json").strip() == expected_result
+
+
+    

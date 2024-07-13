@@ -1,7 +1,8 @@
 import argparse
 from gendiff.scripts.parse_files import get_text
-from gendiff.scripts.formatter import json_formatter
+from gendiff.scripts.formatter import stylish_formatter
 from gendiff.scripts.formatter import plain_formatter
+from gendiff.scripts.formatter import json_formatter
 
 
 def main():
@@ -15,8 +16,9 @@ def main():
 
     args = parser.parse_args()
     file1, file2 = get_text(args.first_file, args.second_file)
-    return generate_diff(file1, file2, args.format)
-    # return generate_diff(file1, file2, "plain")
+    diff = generate_diff(file1, file2, args.format)
+    return diff
+    
 
 
 def generate_diff(first_file, second_file, format):
@@ -38,11 +40,13 @@ def generate_diff(first_file, second_file, format):
 
         return diff
     diff = build(first_file, second_file)
-
+    
     if format == "stylish":
-        return json_formatter(diff)
+        return stylish_formatter(diff)
     elif format == "plain":
         return plain_formatter(diff)
+    elif format == "json":
+        return json_formatter(diff)
 
 
 if __name__ == "__main__":
