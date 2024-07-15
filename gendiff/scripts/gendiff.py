@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+
 import argparse
 from gendiff.scripts.parse_files import get_text
 from gendiff.scripts.formatter import stylish_formatter
