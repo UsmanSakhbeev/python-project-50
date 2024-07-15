@@ -25,7 +25,7 @@ def main():
     return diff
 
 
-def generate_diff(first_file, second_file, format):
+def generate_diff(first_file, second_file, format="stylish"):
     def build(node1, node2):
         sorted_keys = sorted(node1.keys() | node2.keys())
         diff = {}
