@@ -37,7 +37,6 @@ def stylish_formatter(value):
 
 
 def plain_formatter(value):
-
     def build(current_value, current_path):
         result = []
         for key, val in current_value.items():
@@ -63,12 +62,15 @@ def plain_formatter(value):
     return build(value, "")
 
 
-def json_formatter(value, replacer = " ", spaces_count = 4):
+def json_formatter(value):
+    replacer = " "
+    spaces_count = 4
+
     def build(current_value, depth):
 
         if not isinstance(current_value, dict):
-            return format_exception_check(current_value, "double_quotes") 
-        
+            return format_exception_check(current_value, "double_quotes")
+
         current_intend = replacer * depth
         child_intend_size = depth + spaces_count
         child_intend = replacer * child_intend_size
@@ -79,18 +81,18 @@ def json_formatter(value, replacer = " ", spaces_count = 4):
             if key != last_key:
                 if isinstance(value, dict):
                     current_string = f'{child_intend}"{key}": {build(value, child_intend_size)},'
-                else:                
+                else:
                     current_string = f'{child_intend}"{key}": {build(value, child_intend_size)},'
             else:
                 if isinstance(value, dict):
                     current_string = f'{child_intend}"{key}": {build(value, child_intend_size)}'
-                else:                
-                    current_string = f'{child_intend}"{key}": {build(value, child_intend_size)}'                
+                else:
+                    current_string = f'{child_intend}"{key}": {build(value, child_intend_size)}'
             children.append(current_string)
-            
+
         children.append(current_intend + "}")
         return "\n".join(children)
-    
+
     return build(value, 0)
 
 
@@ -101,7 +103,7 @@ def create_path(parents, child):
         return f"{parents}.{child}"
 
 
-def format_exception_check(value, format = "without_quotes"):
+def format_exception_check(value, format="without_quotes"):
     if value is False:
         return "false"
     elif value is True:
@@ -111,7 +113,10 @@ def format_exception_check(value, format = "without_quotes"):
     elif format == "single_quotes":
         return f"'{str(value)}'"
     elif format == "double_quotes":
-        return f'"{str(value)}"'
+        if isinstance(value, int):
+            return f'{str(value)}'
+        else:
+            return f'"{str(value)}"'
     elif format == "without_quotes":
         return f"{str(value)}"
 
