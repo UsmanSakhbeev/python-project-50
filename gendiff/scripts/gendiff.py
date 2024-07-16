@@ -27,6 +27,8 @@ def main():
 
 def generate_diff(first_file, second_file, format="stylish"):
     def build(node1, node2):
+        if not isinstance(node1, dict) and not isinstance(node2, dict):
+            return 
         sorted_keys = sorted(node1.keys() | node2.keys())
         diff = {}
         for key in sorted_keys:
@@ -37,7 +39,7 @@ def generate_diff(first_file, second_file, format="stylish"):
             elif isinstance(node1[key], dict) and isinstance(node2[key], dict):
                 diff[key] = {
                     "type": "chained", "value": build(node1[key], node2[key])}
-            elif key in node1 and key in node2:
+            else:
                 if node1[key] != node2[key]:
                     diff[key] = {
                         "type": "changed",
