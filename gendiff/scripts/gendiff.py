@@ -2,6 +2,8 @@
 
 
 import argparse
+import json
+import yaml
 from gendiff.scripts.parse_files import get_text
 from gendiff.scripts.formatter import stylish_formatter
 from gendiff.scripts.formatter import plain_formatter
@@ -26,6 +28,8 @@ def main():
 
 
 def generate_diff(first_file, second_file, format="stylish"):
+    node1 = read_file(first_file)
+    node2 = read_file(second_file)
     def build(node1, node2):
         sorted_keys = sorted(node1.keys() | node2.keys())
         diff = {}
@@ -46,7 +50,7 @@ def generate_diff(first_file, second_file, format="stylish"):
                 else:
                     diff[key] = {"type": "unchanged", "value": node1[key]}
         return diff
-    diff = build(first_file, second_file)
+    diff = build(node1, node2)
 
     if format == "stylish":
         return stylish_formatter(diff)
@@ -55,6 +59,14 @@ def generate_diff(first_file, second_file, format="stylish"):
     elif format == "json":
         return json_formatter(diff)
 
+def read_file(file_path):
+    with open(file_path) as file:
+        if file_path.endswith('.json'):
+            return json.load(file)
+        elif file_path.endswith('.yml') or file_path.endswith('.yaml'):
+            return yaml.safe_load(file)
+        else:
+            raise ValueError(f'Unsupported file format: {file_path}')
 
 if __name__ == "__main__":
     main()
