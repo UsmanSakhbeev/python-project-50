@@ -51,7 +51,7 @@ def plain_formatter(value):
             elif val.get("type") == "changed":
                 if isinstance(val['old_value'], dict):
                     current_string = f"Property '{create_path(current_path, key)}' was updated. From [complex value] to {format_exception_check(val['new_value'], 'single_quotes')}"
-                if isinstance(val['new_value'], dict):
+                elif isinstance(val['new_value'], dict):
                     current_string = f"Property '{create_path(current_path, key)}' was updated. From {format_exception_check(val['old_value'], 'single_quotes')} to [complex value]"
                 else:
                     current_string = f"Property '{create_path(current_path, key)}' was updated. From {format_exception_check(val['old_value'], 'single_quotes')} to {format_exception_check(val['new_value'], 'single_quotes')}"
