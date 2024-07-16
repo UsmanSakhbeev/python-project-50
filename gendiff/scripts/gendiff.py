@@ -27,8 +27,6 @@ def main():
 
 def generate_diff(first_file, second_file, format="stylish"):
     def build(node1, node2):
-        if not isinstance(node1, dict) and not isinstance(node2, dict):
-            return 
         sorted_keys = sorted(node1.keys() | node2.keys())
         diff = {}
         for key in sorted_keys:
