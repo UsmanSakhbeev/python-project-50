@@ -38,4 +38,3 @@ def test_yml_merge():
     with open(YAML_RESULT) as f:
         expected_result = f.read().strip()
     assert generate_diff(YML1, YML2, "json").strip() == expected_result
-    
