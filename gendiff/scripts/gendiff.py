@@ -4,7 +4,6 @@
 import argparse
 import json
 import yaml
-from gendiff.scripts.parse_files import get_text
 from gendiff.scripts.formatter import stylish_formatter
 from gendiff.scripts.formatter import plain_formatter
 from gendiff.scripts.formatter import json_formatter
@@ -21,7 +20,7 @@ def main():
         choices=["stylish", "json", "plain"],
         help="set format of output (default: stylish)")
 
-    args = parser.parse_args() 
+    args = parser.parse_args()
     diff = generate_diff(args.first_file, args.second_file, args.format)
     print(diff)
 
@@ -29,27 +28,7 @@ def main():
 def generate_diff(first_file, second_file, format="stylish"):
     node1 = read_file(first_file)
     node2 = read_file(second_file)
-    def build(node1, node2):
-        sorted_keys = sorted(node1.keys() | node2.keys())
-        diff = {}
-        for key in sorted_keys:
-            if key not in node1:
-                diff[key] = {"type": "added", "value": node2[key]}
-            elif key not in node2:
-                diff[key] = {"type": "deleted", "value": node1[key]}
-            elif isinstance(node1[key], dict) and isinstance(node2[key], dict):
-                diff[key] = {
-                    "type": "chained", "value": build(node1[key], node2[key])}
-            elif key in node1 and key in node2:
-                if node1[key] != node2[key]:
-                    diff[key] = {
-                        "type": "changed",
-                        "old_value": node1[key],
-                        "new_value": node2[key]}
-                else:
-                    diff[key] = {"type": "unchanged", "value": node1[key]}
-        return diff
-    diff = build(node1, node2)
+    diff = build_diff(node1, node2)
 
     if format == "stylish":
         return stylish_formatter(diff)
@@ -57,6 +36,33 @@ def generate_diff(first_file, second_file, format="stylish"):
         return plain_formatter(diff)
     elif format == "json":
         return json_formatter(diff)
+
+
+def build_diff(node1, node2):
+    sorted_keys = sorted(node1.keys() | node2.keys())
+    diff = {}
+
+    for key in sorted_keys:
+        if key not in node1:
+            diff[key] = {"type": "added", "value": node2[key]}
+        elif key not in node2:
+            diff[key] = {"type": "deleted", "value": node1[key]}
+        elif isinstance(node1[key], dict) and isinstance(node2[key], dict):
+            diff[key] = {
+                "type": "chained", "value": build_diff(node1[key], node2[key])}
+        elif key in node1 and key in node2:
+            evaluate_changes(node1, node2, key)
+    return diff
+
+
+def evaluate_changes(node1, node2, key):
+    if node1[key] != node2[key]:
+        return {
+            "type": "changed",
+            "old_value": node1[key],
+            "new_value": node2[key]}
+    else:
+        return {"type": "unchanged", "value": node1[key]}
 
 
 def read_file(path_to_file: str):
@@ -69,6 +75,7 @@ def read_file(path_to_file: str):
     else:
         result = {'Exception': 'file has wrong format'}
     return result
+
 
 if __name__ == "__main__":
     main()
