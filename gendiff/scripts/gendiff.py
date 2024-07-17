@@ -51,7 +51,7 @@ def build_diff(node1, node2):
             diff[key] = {
                 "type": "chained", "value": build_diff(node1[key], node2[key])}
         elif key in node1 and key in node2:
-            evaluate_changes(node1, node2, key)
+            diff[key] = evaluate_changes(node1, node2, key)
     return diff
 
 
