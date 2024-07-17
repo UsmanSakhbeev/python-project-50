@@ -22,8 +22,8 @@ def main():
         help="set format of output (default: stylish)")
 
     args = parser.parse_args()
-    file1, file2, format = get_text(args.first_file, args.second_file, args.format)
-    diff = generate_diff(file1, file2, format)
+    file1, file2 = get_text(args.first_file, args.second_file)
+    diff = generate_diff(file1, file2, args.format)
     print(diff)
 
 
@@ -58,6 +58,7 @@ def generate_diff(first_file, second_file, format="stylish"):
         return plain_formatter(diff)
     elif format == "json":
         return json_formatter(diff)
+
 
 def read_file(path_to_file: str):
     if '.yml' in path_to_file or '.yaml' in path_to_file:
