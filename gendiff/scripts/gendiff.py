@@ -21,9 +21,8 @@ def main():
         choices=["stylish", "json", "plain"],
         help="set format of output (default: stylish)")
 
-    args = parser.parse_args()
-    file1, file2 = get_text(args.first_file, args.second_file)
-    diff = generate_diff(file1, file2, args.format)
+    args = parser.parse_args() 
+    diff = generate_diff(args.first_file, args.second_file, args.format)
     print(diff)
 
 
