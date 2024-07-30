@@ -1,6 +1,5 @@
 from gendiff.scripts.gendiff import generate_diff
 
-
 JSON1 = "tests/fixtures/json1.json"
 JSON2 = "tests/fixtures/json2.json"
 YML1 = "tests/fixtures/yml1.yml"
@@ -10,7 +9,7 @@ PLAIN_RESULT = "tests/fixtures/plain_diff"
 YAML_RESULT = "tests/fixtures/json.json"
 
 
-def test_json_merge():
+def test_json_comparison():
 
     with open(JSON_RESULT) as f:
         expected_result = f.read().strip()
@@ -25,7 +24,7 @@ def test_json_merge():
     assert generate_diff(JSON1, JSON2, "json").strip() == expected_result
 
 
-def test_yml_merge():
+def test_yml_comparison():
 
     with open(JSON_RESULT) as f:
         expected_result = f.read().strip()
