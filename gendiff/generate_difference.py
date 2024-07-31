@@ -7,7 +7,6 @@ from gendiff.parse_files import read_file
 
 
 def generate_diff(first_file, second_file, format="stylish"):
-    print()
     node1 = read_file(first_file)
     node2 = read_file(second_file)
     diff = build_diff(node1, node2)

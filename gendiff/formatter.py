@@ -11,6 +11,7 @@ def format_to_stylish(value):
         for key, val in current_value.items():
             string = ""
             if isinstance(val, dict):
+                # build_node(val.get("type"), indent, key, val['value'], val.get('old_value'), val.get('new_value'))
                 match val.get("type"):
                     case "chained":
                         string = (
@@ -45,6 +46,24 @@ def format_to_stylish(value):
 
         result.append(indent + "}")
         return "\n".join(result)
+
+    def build_node(type, indent, key, value, new_value, old_value):
+        match type:
+            case "chained":
+                string = f"{indent}    {key}: {build(value, child_depth)}"
+            case "added":
+                string = f"{indent}  + {key}: {build(value, child_depth)}"
+            case "deleted":
+                string = f"{indent}  - {key}: {build(value, child_depth)}"
+            case "unchanged":
+                string = f"{indent}    {key}: {build(value, child_depth)}"
+            case "changed":
+                string = f"{indent}  - {key}: {build(new_value, child_depth)}"
+                result.append(string)
+                string = f"{indent}  + {key}: {build(old_value, child_depth)}"
+            case _:
+                string = f"{indent}    {key}: {build(val, child_depth)}"
+        result.append(string)
 
     return build(value, 0)
 
@@ -141,11 +160,3 @@ def format_exception_check(value, format="without_quotes"):
             return f'"{str(value)}"'
     elif format == "without_quotes":
         return f"{str(value)}"
-
-
-def main():
-    pass
-
-
-if __name__ == "__main__":
-    main()

@@ -1,8 +1,11 @@
 import json
+
 import yaml
 
 
-def get_text(path_to_file, ):
+def get_text(
+    path_to_file,
+):
     if path_to_file.endswith(".json"):
         with open(path_to_file) as f:
             path = json.load(f)
@@ -24,11 +27,3 @@ def read_file(path_to_file: str):
     else:
         result = {"Exception": "file has wrong format"}
     return result
-
-
-def main():
-    return
-
-
-if __name__ == '__main__':
-    main()
