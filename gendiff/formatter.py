@@ -1,4 +1,4 @@
-def stylish_formatter(value):
+def format_to_stylish(value):
 
     def build(current_value, depth, replacer=" "):
         if not isinstance(current_value, dict):
@@ -49,7 +49,7 @@ def stylish_formatter(value):
     return build(value, 0)
 
 
-def plain_formatter(value):
+def format_to_plain(value):
     def build(current_value, current_path):
         result = []
         for key, val in current_value.items():
@@ -81,7 +81,7 @@ def plain_formatter(value):
     return build(value, "")
 
 
-def json_formatter(value):
+def format_to_json(value):
     replacer = " "
     spaces_count = 4
 
