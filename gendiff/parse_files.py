@@ -27,3 +27,31 @@ def read_file(path_to_file: str):
     else:
         result = {"Exception": "file has wrong format"}
     return result
+
+
+def create_path(parents, child):
+    if parents == "":
+        return child
+    else:
+        return f"{parents}.{child}"
+
+
+def to_string(value, format="without_quotes"):
+    if value is False:
+        return "false"
+    elif value is True:
+        return "true"
+    elif value is None:
+        return "null"
+    elif format == "single_quotes":
+        if isinstance(value, int):
+            return f"{str(value)}"
+        else:
+            return f"'{str(value)}'"
+    elif format == "double_quotes":
+        if isinstance(value, int):
+            return f"{str(value)}"
+        else:
+            return f'"{str(value)}"'
+    elif format == "without_quotes":
+        return f"{str(value)}"
