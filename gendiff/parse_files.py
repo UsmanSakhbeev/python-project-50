@@ -3,30 +3,23 @@ import json
 import yaml
 
 
-def get_text(
-    path_to_file,
-):
-    if path_to_file.endswith(".json"):
-        with open(path_to_file) as f:
-            path = json.load(f)
-            format = "json"
-    elif path_to_file.endswith(".yml") or path_to_file.endswith(".yaml"):
-        with open(path_to_file) as f:
-            path = yaml.safe_load(f)
-            format = "yml"
-    return path, format
+def parse_file_content(content: str, file_extension: str):
+    if file_extension in [".yml", ".yaml"]:
+        return yaml.load(content, Loader=yaml.FullLoader)
+    elif file_extension == ".json":
+        return json.loads(content)
+    else:
+        return {"Exception": "file has wrong format"}
 
 
 def read_file(path_to_file: str):
-    if ".yml" in path_to_file or ".yaml" in path_to_file:
-        with open(path_to_file) as file_to_parse:
-            result = yaml.load(file_to_parse, Loader=yaml.FullLoader)
-    elif ".json" in path_to_file:
-        with open(path_to_file) as file_to_parse:
-            result = json.load(file_to_parse)
-    else:
-        result = {"Exception": "file has wrong format"}
-    return result
+    file_extension = path_to_file[path_to_file.rfind(".") :]
+    try:
+        with open(path_to_file, "r") as file_to_parse:
+            content = file_to_parse.read()
+        return parse_file_content(content, file_extension)
+    except Exception as e:
+        return {"Exception": str(e)}
 
 
 def create_path(parents, child):
@@ -36,22 +29,40 @@ def create_path(parents, child):
         return f"{parents}.{child}"
 
 
-def to_string(value, format="without_quotes"):
+def json_to_string(value, format="without_quotes"):
     if value is False:
         return "false"
     elif value is True:
         return "true"
     elif value is None:
         return "null"
-    elif format == "single_quotes":
-        if isinstance(value, int):
-            return f"{str(value)}"
-        else:
-            return f"'{str(value)}'"
-    elif format == "double_quotes":
+    else:
         if isinstance(value, int):
             return f"{str(value)}"
         else:
             return f'"{str(value)}"'
-    elif format == "without_quotes":
+
+
+def stylish_to_string(value):
+    if value is False:
+        return "false"
+    elif value is True:
+        return "true"
+    elif value is None:
+        return "null"
+    else:
         return f"{str(value)}"
+
+
+def plain_to_string(value):
+    if value is False:
+        return "false"
+    elif value is True:
+        return "true"
+    elif value is None:
+        return "null"
+    else:
+        if isinstance(value, int):
+            return f"{str(value)}"
+        else:
+            return f"'{str(value)}'"

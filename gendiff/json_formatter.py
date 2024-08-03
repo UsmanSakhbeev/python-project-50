@@ -1,4 +1,4 @@
-from gendiff.parse_files import to_string
+from gendiff.parse_files import json_to_string
 
 
 def format_to_json(value):
@@ -8,7 +8,7 @@ def format_to_json(value):
     def build(current_value, depth):
 
         if not isinstance(current_value, dict):
-            return to_string(current_value, "double_quotes")
+            return json_to_string(current_value)
 
         current_intend = replacer * depth
         child_depth = depth + spaces_count
@@ -18,15 +18,9 @@ def format_to_json(value):
         last_key = list(current_value.keys())[-1]
         for key, value in current_value.items():
             comma = "," if key != last_key else ""
-            if isinstance(value, dict):
-                current_string = (
-                    f'{child_intend}"{key}": {build(value, child_depth)}{comma}'
-                )
-            else:
-                current_string = (
-                    f'{child_intend}"{key}": {build(value, child_depth)}{comma}'
-                )
-
+            current_string = (
+                f'{child_intend}"{key}": {build(value, child_depth)}{comma}'
+            )
             children.append(current_string)
 
         children.append(current_intend + "}")

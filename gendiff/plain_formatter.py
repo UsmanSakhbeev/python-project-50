@@ -1,33 +1,48 @@
-from gendiff.parse_files import create_path, to_string
+from gendiff.parse_files import create_path, plain_to_string
 
 
 def format_to_plain(value):
-    def build(current_value, current_path):
+    def build(current_value, path):
         result = []
         for key, val in current_value.items():
-            current_string = ""
+            string = ""
             match val.get("type"):
                 case "chained":
-                    current_string = build(val["value"], create_path(current_path, key))
+                    string = build(val["value"], create_path(path, key))
                 case "added":
-                    if isinstance(val["value"], dict):
-                        current_string = f"Property '{create_path(current_path, key)}' was added with value: [complex value]"
-                    else:
-                        current_string = f"Property '{create_path(current_path, key)}' was added with value: {to_string(val['value'], 'single_quotes')}"
+                    string = create_added(path, key, val)
                 case "changed":
-                    if isinstance(val["old_value"], dict):
-                        current_string = f"Property '{create_path(current_path, key)}' was updated. From [complex value] to {to_string(val['new_value'], 'single_quotes')}"
-                    elif isinstance(val["new_value"], dict):
-                        current_string = f"Property '{create_path(current_path, key)}' was updated. From {to_string(val['old_value'], 'single_quotes')} to [complex value]"
-                    else:
-                        current_string = f"Property '{create_path(current_path, key)}' was updated. From {to_string(val['old_value'], 'single_quotes')} to {to_string(val['new_value'], 'single_quotes')}"
+                    string = create_changed(path, key, val)
                 case "deleted":
-                    current_string = (
-                        f"Property '{create_path(current_path, key)}' was removed"
-                    )
+                    string = f"Property '{create_path(path, key)}' was removed"
                 case _:
                     continue
-            result.append(current_string)
+            result.append(string)
         return "\n".join(result)
 
     return build(value, "")
+
+
+def create_added(path, key, val):
+    if isinstance(val["value"], dict):
+        value = "[complex value]"
+    else:
+        value = plain_to_string(val["value"])
+    return f"Property '{create_path(path, key)}' was added with value: {value}"
+
+
+def create_changed(path, key, val):
+    value1 = "[complex value]"
+    value2 = "[complex value]"
+
+    if isinstance(val["old_value"], dict):
+        value2 = plain_to_string(val["new_value"])
+    elif isinstance(val["new_value"], dict):
+        value1 = plain_to_string(val["old_value"])
+    else:
+        value1 = plain_to_string(val["old_value"])
+        value2 = plain_to_string(val["new_value"])
+    return (
+        f"Property '{create_path(path, key)}' was updated."
+        + f"From {value1} to {value2}"
+    )

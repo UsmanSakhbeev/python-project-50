@@ -1,11 +1,11 @@
-from gendiff.parse_files import to_string
+from gendiff.parse_files import stylish_to_string
 
 
 def format_to_stylish(value):
 
     def build(current_value, depth, replacer=" "):
         if not isinstance(current_value, dict):
-            return to_string(current_value)
+            return stylish_to_string(current_value)
 
         indent = replacer * depth
         child_depth = depth + 4
