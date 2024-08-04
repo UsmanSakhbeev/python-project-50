@@ -44,5 +44,5 @@ def create_changed(path, key, val):
         value2 = plain_to_string(val["new_value"])
     return (
         f"Property '{create_path(path, key)}' was updated."
-        + f"From {value1} to {value2}"
+        + f" From {value1} to {value2}"
     )
