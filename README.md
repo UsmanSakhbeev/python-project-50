@@ -6,6 +6,24 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/54e2677daa9f5f812836/test_coverage)](https://codeclimate.com/github/UsmanSakhbeev/python-project-50/test_coverage)
 
 
+DESCRIPTION: The project features an instrument of comparing two text files (.json and .yml).
+
+The comparison can be displayed differently:
+
+default: '-' for removed, '+' for added information
+
+plain: property was removed, added or updated from one value to another
+
+json: json format
+
+Installation:
+
+Clone the code to the desireable directory: git clone https://github.com/UsmanSakhbeev/python-package-50.git %desireable_directory%
+
+Build the project with poetry: make build
+
+Install required packages: make install
+
 Fifth step asciinema:
 
 [![asciicast](https://asciinema.org/a/ec5pXbirazAgmevBtssmcs8f5.svg)](https://asciinema.org/a/ec5pXbirazAgmevBtssmcs8f5)
