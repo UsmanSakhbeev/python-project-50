@@ -13,7 +13,7 @@ def parse_file_content(content: str, file_extension: str):
 
 
 def read_file(path_to_file: str):
-    file_extension = path_to_file[path_to_file.rfind(".") :]
+    file_extension = path_to_file[path_to_file.rfind("."):]
     try:
         with open(path_to_file, "r") as file_to_parse:
             content = file_to_parse.read()
