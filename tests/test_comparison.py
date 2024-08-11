@@ -1,24 +1,46 @@
 import pytest
 from gendiff.scripts.gendiff import generate_diff
 
-JSON1 = "tests/fixtures/json1.json"
-JSON2 = "tests/fixtures/json2.json"
-YML1 = "tests/fixtures/yml1.yml"
-YML2 = "tests/fixtures/yml2.yml"
-STYLISH_RESULT = "tests/fixtures/stylish.txt"
-PLAIN_RESULT = "tests/fixtures/plain_diff.txt"
-YAML_RESULT = "tests/fixtures/json.json"
-
 
 @pytest.mark.parametrize(
     "file1, file2, format_name, result_file",
     [
-        (JSON1, JSON2, "stylish", STYLISH_RESULT),
-        (JSON1, JSON2, "plain", PLAIN_RESULT),
-        (JSON1, JSON2, "json", YAML_RESULT),
-        (YML1, YML2, "stylish", STYLISH_RESULT),
-        (YML1, YML2, "plain", PLAIN_RESULT),
-        (YML1, YML2, "json", YAML_RESULT),
+        (
+            "tests/fixtures/json1.json",
+            "tests/fixtures/json2.json",
+            "stylish",
+            "tests/fixtures/stylish.txt",
+        ),
+        (
+            "tests/fixtures/json1.json",
+            "tests/fixtures/json2.json",
+            "plain",
+            "tests/fixtures/plain_diff.txt",
+        ),
+        (
+            "tests/fixtures/json1.json",
+            "tests/fixtures/json2.json",
+            "json",
+            "tests/fixtures/json.json",
+        ),
+        (
+            "tests/fixtures/yml1.yml",
+            "tests/fixtures/yml2.yml",
+            "stylish",
+            "tests/fixtures/stylish.txt",
+        ),
+        (
+            "tests/fixtures/yml1.yml",
+            "tests/fixtures/yml2.yml",
+            "plain",
+            "tests/fixtures/plain_diff.txt",
+        ),
+        (
+            "tests/fixtures/yml1.yml",
+            "tests/fixtures/yml2.yml",
+            "json",
+            "tests/fixtures/json.json",
+        ),
     ],
 )
 def test_generate_diff(file1, file2, format_name, result_file):

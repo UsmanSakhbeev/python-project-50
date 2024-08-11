@@ -1,6 +1,3 @@
-from gendiff.parse_files import stylish_to_string
-
-
 def format_to_stylish(value):
 
     def build(current_value, depth, replacer=" "):
@@ -48,3 +45,14 @@ def format_to_stylish(value):
         return string
 
     return build(value, 0)
+
+
+def stylish_to_string(value):
+    if value is False:
+        return "false"
+    elif value is True:
+        return "true"
+    elif value is None:
+        return "null"
+    else:
+        return f"{str(value)}"

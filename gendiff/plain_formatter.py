@@ -1,4 +1,4 @@
-from gendiff.parse_files import create_path, plain_to_string
+from gendiff.parse_files import create_path
 
 
 def format_to_plain(value):
@@ -46,3 +46,16 @@ def create_changed(path, key, val):
         f"Property '{create_path(path, key)}' was updated."
         + f" From {value1} to {value2}"
     )
+
+
+def plain_to_string(value):
+    if value is False:
+        return "false"
+    elif value is True:
+        return "true"
+    elif value is None:
+        return "null"
+    elif isinstance(value, int):
+        return f"{str(value)}"
+    else:
+        return f"'{str(value)}'"
