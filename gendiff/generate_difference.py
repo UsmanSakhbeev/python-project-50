@@ -22,21 +22,20 @@ def generate_diff(first_file, second_file, format="stylish"):
 def build_diff(node1, node2):
     sorted_keys = sorted(node1.keys() | node2.keys())
     diff = {}
-
     for key in sorted_keys:
-        if key not in node1:
-            diff[key] = {"type": "added", "value": node2[key]}
-        elif key not in node2:
-            diff[key] = {"type": "deleted", "value": node1[key]}
-        elif isinstance(node1[key], dict) and isinstance(node2[key], dict):
-            diff[key] = {"type": "chained", "value": build_diff(node1[key], node2[key])}
-        elif key in node1 and key in node2:
-            diff[key] = evaluate_changes(node1, node2, key)
+        diff[key] = build_node(node1, node2, key)
     return diff
 
 
-def evaluate_changes(node1, node2, key):
-    if node1[key] != node2[key]:
-        return {"type": "changed", "old_value": node1[key], "new_value": node2[key]}
-    else:
-        return {"type": "unchanged", "value": node1[key]}
+def build_node(node1, node2, key):
+    if key not in node1:
+        return {"type": "added", "value": node2[key]}
+    elif key not in node2:
+        return {"type": "deleted", "value": node1[key]}
+    elif isinstance(node1[key], dict) and isinstance(node2[key], dict):
+        return {"type": "chained", "value": build_diff(node1[key], node2[key])}
+    elif key in node1 and key in node2:
+        if node1[key] != node2[key]:
+            return {"type": "changed", "old_value": node1[key], "new_value": node2[key]}
+        else:
+            return {"type": "unchanged", "value": node1[key]}

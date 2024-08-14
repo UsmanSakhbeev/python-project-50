@@ -4,7 +4,6 @@ SPACES_COUNT = 4
 
 def format_to_json(value):
     def build(current_value, depth):
-
         if not isinstance(current_value, dict):
             return json_to_string(current_value)
 
@@ -12,17 +11,12 @@ def format_to_json(value):
         child_depth = depth + SPACES_COUNT
         child_intend = REPLACER * child_depth
 
-        children = ["{"]
-        last_key = list(current_value.keys())[-1]
-        for key, value in current_value.items():
-            comma = "," if key != last_key else ""
-            current_string = (
-                f'{child_intend}"{key}": {build(value, child_depth)}{comma}'
-            )
-            children.append(current_string)
+        children = [
+            f'{child_intend}"{key}": {build(val, child_depth)}'
+            for key, val in current_value.items()
+        ]
 
-        children.append(current_intend + "}")
-        return "\n".join(children)
+        return "{\n" + ",\n".join(children) + f"\n{current_intend}}}"
 
     return build(value, 0)
 

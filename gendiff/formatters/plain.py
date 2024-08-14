@@ -15,8 +15,10 @@ def format_to_plain(value):
                     string = create_changed(path, key, val)
                 case "deleted":
                     string = f"Property '{create_path(path, key)}' was removed"
-                case _:
+                case "unchanged":
                     continue
+                case _:
+                    raise ValueError("Wrong node type")
             result.append(string)
         return "\n".join(result)
 
