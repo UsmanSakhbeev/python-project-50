@@ -33,20 +33,16 @@ The comparison can be displayed differently:
  ## Asciinemas
 
  ### Simple yaml comparion
-
 [![asciicast](https://asciinema.org/a/ec5pXbirazAgmevBtssmcs8f5.svg)](https://asciinema.org/a/ec5pXbirazAgmevBtssmcs8f5)
 
 
  ### Stylish format
-
-https://asciinema.org/a/XEY7BSi9He2yjvAS0lMGTnM4V
+[![asciicast](https://asciinema.org/a/XEY7BSi9He2yjvAS0lMGTnM4V.svg)](https://asciinema.org/a/XEY7BSi9He2yjvAS0lMGTnM4V)
 
 
  ### Plain format
-
 [![asciicast](https://asciinema.org/a/FwmFd57OU9uzg5qLjS23931d9.svg)](https://asciinema.org/a/FwmFd57OU9uzg5qLjS23931d9)
 
 
  ### Json format
-
 [![asciicast](https://asciinema.org/a/rWwSdzy84vBUWpuks86hC5AHW.svg)](https://asciinema.org/a/rWwSdzy84vBUWpuks86hC5AHW)
