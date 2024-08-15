@@ -36,6 +36,7 @@ def build_node(node1, node2, key):
         return {"type": "chained", "value": build_diff(node1[key], node2[key])}
     elif key in node1 and key in node2:
         if node1[key] != node2[key]:
-            return {"type": "changed", "old_value": node1[key], "new_value": node2[key]}
+            return {"type": "changed", "old_value": node1[key],
+                    "new_value": node2[key]}
         else:
             return {"type": "unchanged", "value": node1[key]}
