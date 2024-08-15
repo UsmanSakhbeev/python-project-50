@@ -6,7 +6,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/54e2677daa9f5f812836/test_coverage)](https://codeclimate.com/github/UsmanSakhbeev/python-project-50/test_coverage)
 
 
-##DESCRIPTION: 
+ ## DESCRIPTION: 
 
 The project features an instrument of comparing two text files (.json and .yml).
 
@@ -20,13 +20,14 @@ The comparison can be displayed differently:
 * json: json format
 
 
-##Installation:
+ ## Installation:
 
 1. Clone the code to the desireable directory: git clone https://github.com/UsmanSakhbeev/python-package-50.git %desireable_directory%
 
 2. Build the project with poetry: make build
 
 3. Install required packages: make install
+
 
 Fifth step asciinema:
 
