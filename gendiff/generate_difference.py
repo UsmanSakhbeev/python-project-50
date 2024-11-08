@@ -9,14 +9,14 @@ def generate_diff(first_file, second_file, format="stylish"):
     node2 = read_file(second_file)
     diff = build_diff(node1, node2)
 
-    if format == "stylish":
-        return format_to_stylish(diff)
-    elif format == "plain":
-        return format_to_plain(diff)
-    elif format == "json":
-        return format_to_json(diff)
-    else:
-        raise ValueError(f"Unsupported format {format}")
+    formats = {
+        "stylish": format_to_stylish,
+        "plain": format_to_plain,
+        "json": format_to_json,
+    }
+
+    func = formats.get(format, ValueError)
+    return func(diff)
 
 
 def build_diff(node1, node2):
@@ -36,7 +36,6 @@ def build_node(node1, node2, key):
         return {"type": "chained", "value": build_diff(node1[key], node2[key])}
     elif key in node1 and key in node2:
         if node1[key] != node2[key]:
-            return {"type": "changed", "old_value": node1[key],
-                    "new_value": node2[key]}
+            return {"type": "changed", "old_value": node1[key], "new_value": node2[key]}
         else:
             return {"type": "unchanged", "value": node1[key]}
